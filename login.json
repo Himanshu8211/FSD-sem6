@@ -1,0 +1,25 @@
+import { readFile } from "./helper.js";
+
+const FILE = "users.json";
+
+const login = async (userDetails, FILE) => {
+  const users = await readFile(FILE);
+  console.log(users);
+
+  if (users.length === 0) {
+    console.log("No users exist.");
+    return;
+  }
+
+  const user = users.find((u) => u.email === userDetails.email);
+
+  if (!user) {
+    return { message: "User is not registered." };
+  }
+
+  return user.password === userDetails.password
+    ? { message: "Login successful." }
+    : { message: "Incorrect password." };
+};
+
+login({ email: "abc@gmail.com", password: "123456" }, FILE);
